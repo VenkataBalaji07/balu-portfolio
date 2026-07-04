@@ -61,9 +61,9 @@ const intents: Intent[] = [
   }
 ];
 
-export const getBotResponse = async (input: string, chatHistory: {sender: string, text: string}[] = []): Promise<string> => {
+export const getBotResponse = async (input: string, chatHistory: { sender: string, text: string }[] = []): Promise<string> => {
   try {
-    const response = await fetch('/api/chat', {
+    const response = await fetch('https://balu-portfolio-6i7o.onrender.com/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,13 +81,13 @@ export const getBotResponse = async (input: string, chatHistory: {sender: string
     }
 
     const data = await response.json();
-    
+
     if (data.reply) {
       return data.reply;
     }
-    
+
     return "I encountered an unexpected response from the AI server. Please try again later.";
-    
+
   } catch (error: any) {
     console.error("Error communicating with AI backend:", error);
     // Network error or backend down
@@ -97,7 +97,7 @@ export const getBotResponse = async (input: string, chatHistory: {sender: string
 
 const fallbackResponse = (input: string): string => {
   const normalizedInput = input.toLowerCase();
-  
+
   // Strict matching
   for (const intent of intents) {
     if (intent.keywords.some((kw) => normalizedInput.includes(kw))) {
@@ -151,8 +151,8 @@ export const bookMeeting = async (details: { name: string, email: string, compan
   console.log("[CALENDAR MOCK] Creating meeting event...", details);
   console.log("[EMAIL MOCK] Sending confirmation email to visitor:", details.email);
   console.log("[EMAIL MOCK] Sending notification email to balaji...");
-  
-  return new Promise<{success: boolean, meetLink: string}>((resolve) => {
+
+  return new Promise<{ success: boolean, meetLink: string }>((resolve) => {
     setTimeout(() => {
       resolve({
         success: true,
